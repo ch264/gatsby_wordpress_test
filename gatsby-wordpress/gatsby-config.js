@@ -1,8 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Wordpress gatsby test`,
+    description: `wordpress with gatsby head`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -31,10 +30,10 @@ module.exports = {
       resolve: `gatsby-source-wordpress`,
       options: {
         // your WordPress source
-        baseUrl: `wpexample.com`,
+        baseUrl: `postmandotblog.wordpress.com`,
         protocol: `https`,
         // is it hosted on wordpress.com, or self-hosted?
-        hostingWPCOM: false,
+        hostingWPCOM: true,
         // does your site use the Advanced Custom Fields Plugin?
         useACF: false 
       }
