@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'gatsby';
-import PropTypes from  'prop-types';
+// import PropTypes from  'prop-types';
 
 class Post extends Component {
   render() {
@@ -15,12 +15,12 @@ class Post extends Component {
   }
 }
 
-Post.PropTypes = {
-  data: PropTypes.object.isRequired,
-  edges: PropTypes.array,
-}
+// Post.PropTypes = {
+//   data: PropTypes.object.isRequired,
+//   edges: PropTypes.array,
+// }
 
-export default Post
+export default Post;
 
 export const postQuery = graphql`
   query($id: String!) {

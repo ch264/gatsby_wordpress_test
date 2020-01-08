@@ -6,10 +6,10 @@ class Page extends Component {
     const StaticPage = this.props.data.wordpressPage
 
     return (
-      <>
+      <div>
         <h1>{StaticPage.title}</h1>
         <div>{StaticPage.content}</div>
-      </>
+      </div>
     )
   }
 }
@@ -26,7 +26,7 @@ export const pageQuery = graphql`
       id
       siteMetadata {
         title
-        subtitle
+        description
       }
     }
   }

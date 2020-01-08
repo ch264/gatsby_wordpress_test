@@ -1,37 +1,73 @@
-// construct site pages by implementing the createPages API. When this is called, your data has already been fetched and is available to query with GraphQL. Gatsby uses GraphQL at build time; Your source plugin (in this case, gatsby-source-wordpress) fetches your data, and Gatsby uses that data to ”automatically infer a GraphQL schema” that you can query against.
+const path = require(`path`)
+const slash = require(`slash`)
 
- const path = require(`path`);
- const slash = require(`slash`);
+// Implement the Gatsby API “createPages”. This is called after the Gatsby bootstrap is finished so you have access to any information necessary to programmatically create pages.
+// Will create pages for WordPress pages (route : /{slug})
+// Will create pages for WordPress posts (route : /post/{slug})
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  // The “graphql” function allows us to run arbitrary queries against the local Gatsby GraphQL schema. Think of it like the site has a built-in database constructed from the fetched data that you can run queries against.
 
- exports.createPages = async({ graphql, actions }) => {
-   const { createPage } = actions
-   // query content for WordPress posts
-   const result = await graphql(`
-   query {
-     allWordpressPost {
-       edges {
-         node {
-           id
-           slug
-         }
-       }
-     }
-   }
-   `)
+  const result = await graphql(`
+    {
+      allWordpressPage {
+        edges {
+          node {
+            id
+            slug
+            status
+            template
+          }
+        }
+      }
+      allWordpressPost {
+        edges {
+          node {
+            id
+            slug
+            status
+            template
+            format
+          }
+        }
+      }
+    }
+  `)
 
-   const postTemplate = path.resolve(`./src/templates/post.js`);
+  // Check for any errors
+  if (result.errors) {
+    console.error(result.errors)
+  }
 
-   // After fetching data from WordPress via the query, all posts are iterated over, calling createPage for each one.In the GraphiQL IDE at localhost:8000/__graphql you should now see queryable fields for allWordpressPosts in the docs or explorer sidebar.
-   result.data.allWordpressPost.edges.forEach(edge => {
+  // Access query results via object destructuring
+  const { allWordpressPage, allWordpressPost } = result.data
+ console.log(result.data)
+  const pageTemplate = path.resolve(`./src/templates/page.js`)
+  // We want to create a detailed page for each
+  // page node. We'll just use the WordPress Slug for the slug.
+  // The Page ID is prefixed with 'PAGE_'
+  allWordpressPage.edges.forEach(edge => {
+    // Gatsby uses Redux to manage its internal state.
+    // Plugins and sites can use functions like "createPage" to interact with Gatsby.
     createPage({
-      //will be the url of the page
-      path: edge.node.slug,
-      // specify the component template of your choice
-      component: slash(postTemplate),
-      // In the teamplate's GraphQL query, 'id will be available as GraphQL var to query for this posts's data  
+      // Each page is required to have a `path` as well as a template component. The `context` is optional but is often necessary so the template can query data specific to each page.
+      path: `/${edge.node.slug}/`,
+      component: slash(pageTemplate),
       context: {
         id: edge.node.id,
-      }  
+      },
     })
-   })
- }
+  })
+
+  const postTemplate = path.resolve(`./src/templates/post.js`)
+  // We want to create a detailed page for each post node. We'll just use the WordPress Slug for the slug. The Post ID is prefixed with 'POST_'
+  allWordpressPost.edges.forEach(edge => {
+    createPage({
+      path: `/post/${edge.node.slug}/`,
+      component: slash(postTemplate),
+      context: {
+        id: edge.node.id,
+      },
+    })
+  })
+}

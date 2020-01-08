@@ -6,27 +6,29 @@ import { Link, graphql } from "gatsby"
 class IndexPage extends Component {
   render() {
     const data = this.props.data
-    
+    console.log('data', data)
     return (
       <>
         <div>
           <h1>Index Page</h1>
-          {data.allWordpressPages.edges.map(({ node }) => (
+          {data.allWordpressPage.edges.map(({ node }) => (
             <div key={node.slug}>
               <Link to={node.slug}>
                 <h2>{node.title}</h2>
               </Link>
-              <h3>{node.excerpt}</h3>
+              <p>{node.excerpt}</p>
             </div>
           ))}
         </div>
 
         <h1>Posts</h1>
-        {data.allWordpressPages.edges.map(({ node }) => (
+        {data.allWordpressPost.edges.map(({ node }) => (
           <div key={node.slug}>
             <Link to={node.slug}>
               <h2>{node.title}</h2>
             </Link>
+            <p>slug: {node.slug}</p>
+            <p>{node.excerpt}</p>
           </div>
         ))}
       </>

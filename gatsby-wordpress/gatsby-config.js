@@ -30,12 +30,13 @@ module.exports = {
       resolve: `gatsby-source-wordpress`,
       options: {
         // your WordPress source
-        baseUrl: `postmandotblog.wordpress.com`,
+        baseUrl: `blog.getpostman.com`,
         protocol: `https`,
-        // is it hosted on wordpress.com, or self-hosted?
-        hostingWPCOM: true,
+        // is it hosted on wordpress.com, or self-hosted? true will contact wordpress hosted site
+        hostingWPCOM: false,
         // does your site use the Advanced Custom Fields Plugin?
-        useACF: false 
+        useACF: false,
+        verboseOutput: true,
       }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
