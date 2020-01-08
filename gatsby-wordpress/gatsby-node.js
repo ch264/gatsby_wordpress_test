@@ -1,7 +1,7 @@
 // construct site pages by implementing the createPages API. When this is called, your data has already been fetched and is available to query with GraphQL. Gatsby uses GraphQL at build time; Your source plugin (in this case, gatsby-source-wordpress) fetches your data, and Gatsby uses that data to ”automatically infer a GraphQL schema” that you can query against.
 
  const path = require(`path`);
- const slash = require(`slach`);
+ const slash = require(`slash`);
 
  exports.createPages = async({ graphql, actions }) => {
    const { createPage } = actions
@@ -21,7 +21,7 @@
 
    const postTemplate = path.resolve(`./src/templates/post.js`);
 
-   // After fetching data from WordPress via the query, all posts are iterated over, calling createPage for each one.
+   // After fetching data from WordPress via the query, all posts are iterated over, calling createPage for each one.In the GraphiQL IDE at localhost:8000/__graphql you should now see queryable fields for allWordpressPosts in the docs or explorer sidebar.
    result.data.allWordpressPost.edges.forEach(edge => {
     createPage({
       //will be the url of the page
